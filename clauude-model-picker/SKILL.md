@@ -17,9 +17,9 @@ Three model tiers × thinking toggle = six combinations. They differ along two i
 
 | Configuration | Relative burn | Comparative strength |
 |---|---|---|
-| **Haiku 4.5 — Thinking OFF** | ~1× | Mechanical text manipulation: stripping formatting, fixing typos, basic classification, simple extraction, dictionary-style lookups |
-| **Haiku 4.5 — Thinking ON** ("Extended") | ~2× | Light-to-medium careful reasoning at low cost: edge-case classification, multi-step extraction with conditional rules, simple logic checks, cost-sensitive constrained drafting |
-| **Sonnet 4.6 — Thinking OFF** | ~3× | Fluid language synthesis: routine emails, standard creative fiction, multi-page summaries, formatting notes into structured markdown, general chat |
+| **Haiku 4.5 — Thinking OFF** ⚠️ | ~1× | *Not recommended* — produces weaker results requiring correction passes that erase the cost savings. Use Sonnet — Thinking OFF instead. |
+| **Haiku 4.5 — Thinking ON** ⚠️ | ~2× | *Not recommended* — same quality issues as Haiku-off. Sonnet — Thinking OFF (~3×) is the practical floor for reliable output. |
+| **Sonnet 4.6 — Thinking OFF** | ~3× | Fluid language synthesis and mechanical tasks: routine emails, summaries, classification, formatting, extraction, standard creative fiction, general chat |
 | **Sonnet 4.6 — Adaptive Thinking ON** ⭐ *daily workhorse* | ~6× | Tone-calibrated communication, logic auditing of pitches/essays, strategic planning with competing constraints, learning about nuanced topics |
 | **Opus 4.7 — Adaptive Thinking OFF** | ~5–7× | Frontier-grade prose fluidity without reasoning burn: long-form creative writing at the ceiling, executing a plan Opus already deliberated on, Opus-depth chat where latency matters |
 | **Opus 4.7 — Adaptive Thinking ON** 🏔️ *heavy lifter* | ~15–20×+ | Dense conceptual abstraction: contract loophole hunting, nested philosophical interpretation, multi-variable strategy mapping, intricate logic puzzles |
@@ -52,7 +52,7 @@ The burn multipliers are mental models for claude.ai message-limit consumption, 
 Two axes. Pick the row first, then the column.
 
 ### Axis 1 — Cognitive depth required
-- **Mechanical / surface-level:** fixed-rule transformations, classification, extraction, formatting → **Haiku tier**
+- **Mechanical / surface-level:** fixed-rule transformations, classification, extraction, formatting → **Sonnet — Thinking OFF**
 - **Fluid synthesis:** writing, summarizing, planning, conversation → **Sonnet tier**
 - **Frontier abstraction:** dense systemic logic, hidden contradictions across many variables, nested metaphor → **Opus tier**
 
@@ -66,7 +66,7 @@ Two axes. Pick the row first, then the column.
 - Auditing somebody else's argument for flaws? → ON
 - Planning with uncertainty or branching paths? → ON
 - Pure language generation, summarization, chit-chat? → OFF
-- High volume / cost-sensitive / latency-sensitive? → OFF (or Haiku ON for the cheap-careful niche)
+- High volume / cost-sensitive / latency-sensitive? → OFF (Sonnet — Thinking OFF is the reliable floor; don't go to Haiku)
 
 ---
 
@@ -127,11 +127,11 @@ Keep clarifications short and concrete. No questionnaires. If two questions feel
 ### Example 1 — workflow with heterogeneous stages
 > "I have a 40-page raw Zoom transcript from a strategy offsite. I want to clean it up, then pull out the key decisions and disagreements."
 
-**Primary: Haiku 4.5 (Thinking OFF) for cleanup, then Sonnet 4.6 (Thinking ON) for the analysis pass.**
-Cleanup is mechanical text manipulation — Haiku handles it at a fraction of the burn. The decisions/disagreements pass needs to balance multiple voices and surface implicit conflict, which is exactly what Sonnet's adaptive thinking pass is built for.
+**Primary: Sonnet 4.6 (Thinking OFF) for cleanup, then Sonnet 4.6 (Thinking ON) for the analysis pass.**
+Cleanup is mechanical text manipulation — Sonnet thinking-off handles it reliably at low burn. The decisions/disagreements pass needs to balance multiple voices and surface implicit conflict, which is exactly what Sonnet's adaptive thinking pass is built for.
 
 **Fallback: Sonnet 4.6 (Thinking ON) for the whole thing.**
-If you'd rather not switch threads, Sonnet thinking-on can do both — you just pay ~6× burn on the cleanup work you could've offloaded to Haiku.
+If you'd rather not toggle mid-thread, Sonnet thinking-on can do both — you pay slightly more on the cleanup pass but avoid switching.
 
 ---
 
@@ -149,11 +149,11 @@ Step up to Opus only if the situation has unusual legal exposure or you want max
 ### Example 3 — proactive trigger, mechanical bulk work
 > "I've got a folder of about 300 customer support chat logs and I want to bucket them into themes — refund, bug, onboarding confusion, feature request, other."
 
-**Primary: Haiku 4.5 — Thinking OFF.**
-High-volume classification with a fixed taxonomy is exactly Haiku's comparative advantage — fast, cheap, and accurate enough on rule-following work.
+**Primary: Sonnet 4.6 — Thinking OFF.**
+Fixed-taxonomy classification is straightforward pattern-following. Sonnet thinking-off handles bulk rule-based work reliably without the quality issues that make Haiku require correction passes.
 
-**Fallback: Haiku 4.5 — Thinking ON.**
-If a meaningful chunk lands in "other" or gets miscategorized at the edges, flipping thinking on (still ~2×, far cheaper than Sonnet) lets Haiku reason about ambiguous cases without escalating the tier.
+**Fallback: Sonnet 4.6 — Thinking ON.**
+If edge cases accumulate or the "other" bucket is growing, flip thinking on. The deliberation pass helps Sonnet reason about genuinely ambiguous inputs without escalating to Opus.
 
 ---
 
@@ -176,10 +176,8 @@ Assumed: you want depth-over-breadth (loophole hunting), not a plain-English sum
 
 Most picks land on Sonnet (off or on). The other four configurations exist for specific situations — don't treat them as exotic, but don't reach for them reflexively either.
 
-### Haiku 4.5 — Thinking ON ("Extended")
-The most overlooked configuration. Lives in the gap between "Haiku is too dumb" and "Sonnet on is too expensive."
-- **Use when:** you need Haiku's speed/cost but the task has ambiguous edges — classification with fuzzy categories, extraction with conditional rules, drafting templated messages with several constraints, simple arithmetic/logic that needs verification.
-- **Compared to Sonnet OFF:** roughly the same burn (~2× vs ~3×), but trades fluency for explicit reasoning. Pick Haiku-on when correctness on rules matters more than prose feel; Sonnet-off when the reverse.
+### Haiku 4.5 — Not recommended
+Despite its low burn (~1–2×), Haiku produces weaker results that typically require correction passes, erasing the cost advantage. **Sonnet 4.6 — Thinking OFF (~3×) is the practical floor** for reliable output: no correction overhead, better prose, and often faster end-to-end because you're not iterating on mistakes.
 
 ### Opus 4.7 — Adaptive Thinking OFF
 The most counter-intuitive configuration. Pricier than Sonnet ON but doesn't reason explicitly.

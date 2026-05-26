@@ -7,7 +7,7 @@ Skills are account-wide — once installed they work across Chat and Cowork auto
 ## Skills
 
 ### [`clauude-model-picker`](clauude-model-picker/) — claude.ai (general chat/writing)
-Recommends the right model + reasoning mode for general workflows: writing, summarization, analysis, communications. Covers Haiku/Sonnet/Opus with Thinking ON/OFF across six configurations.
+Recommends the right model + reasoning mode for general workflows: writing, summarization, analysis, communications. Covers Sonnet and Opus with Thinking ON/OFF. Haiku is not recommended — Sonnet (Thinking OFF) is the reliable floor.
 
 ## Installation
 
@@ -32,3 +32,18 @@ npx skills add slaymaker1907/slaymaker1907-claude
 ### Team / Enterprise
 
 On Team and Enterprise plans you can publish a skill to your organization's directory, making it discoverable by anyone on your org. Shared skills are view-only, and recipients automatically receive updates when the skill is revised.
+
+## Updating an installed skill
+
+After changes are pushed to this repo, update your installed version:
+
+**Via web UI:** Go to **Settings → Customize → Skills**, remove the existing skill, then re-upload the new `.skill` file (see [AGENTS.md](AGENTS.md) for how to repackage it).
+
+**Via npx:**
+```bash
+npx skills add slaymaker1907/slaymaker1907-claude --skill clauude-model-picker
+```
+
+## Contributing / editing
+
+See [AGENTS.md](AGENTS.md) for instructions on editing skills, repackaging `.skill` files, and pushing updates.

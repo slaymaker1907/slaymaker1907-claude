@@ -1,6 +1,8 @@
 # slaymaker1907-claude
 
-A collection of Claude skills.
+A collection of Claude skills for claude.ai.
+
+Skills are account-wide — once installed they work across Chat and Cowork automatically, on any device. Available for Pro, Max, Team, and Enterprise plans. Mobile is not yet supported.
 
 ## Skills
 
@@ -9,10 +11,24 @@ Recommends the right model + reasoning mode for general workflows: writing, summ
 
 ## Installation
 
-Copy any skill directory into your Claude skills folder:
+### Option 1 — Upload via the web UI
+
+1. Download the packaged `.skill` file *(ZIP format — if you have `clauude-model-picker.skill`, that's it)*
+2. Go to **Settings → Customize → Skills → "+"**
+3. Upload the `.skill` file
+
+### Option 2 — Install from GitHub with npx
 
 ```bash
-cp -r clauude-model-picker ~/.claude/skills/
+npx skills add slaymaker1907/slaymaker1907-claude --skill clauude-model-picker
 ```
 
-Restart Claude Code (or reload the page on claude.ai) and the skill will appear in your available skills list.
+If you want all skills in this repo:
+
+```bash
+npx skills add slaymaker1907/slaymaker1907-claude
+```
+
+### Team / Enterprise
+
+On Team and Enterprise plans you can publish a skill to your organization's directory, making it discoverable by anyone on your org. Shared skills are view-only, and recipients automatically receive updates when the skill is revised.

@@ -1,0 +1,33 @@
+{
+  "skill_name": "model-picker",
+  "evals": [
+    {
+      "id": 0,
+      "name": "mechanical-grep-rename",
+      "prompt": "I need to rename the function `getUserData` to `fetchUserData` everywhere it's used across my Next.js codebase (probably ~30 files, the repo is maybe 80k tokens total). What Claude Code model + thinking level should I use for this?",
+      "expected_output": "Recommend Haiku 4.5 (mechanical task, fits within Haiku's 200k context); Sonnet low/medium as acceptable cheaper-effort fallback. Output in the prescribed 'Recommendation / Why / Fallback' format.",
+      "files": []
+    },
+    {
+      "id": 1,
+      "name": "standard-bug-fix",
+      "prompt": "There's a bug in my React app where the date picker shows the wrong timezone after the user changes their locale setting. I need to find the root cause and fix it. What model + thinking level should I pick in Claude Code?",
+      "expected_output": "Recommend Sonnet 4.6 at high (or max if dense). Standard debugging in a known codebase — the daily-driver Sonnet sweet spot.",
+      "files": []
+    },
+    {
+      "id": 2,
+      "name": "architectural-planning",
+      "prompt": "I'm planning to break up our monolithic Django backend (~250k LOC, around 600k tokens in context) into a set of microservices. I want Claude to help me sketch out a migration strategy, identify service boundaries, and figure out which modules need to be split first. What model should I use?",
+      "expected_output": "Recommend Opus 4.7 at high or xhigh — architectural planning across a large codebase. Mention the 'Opus to plan, Sonnet to execute' pattern as a fallback for the implementation phase.",
+      "files": []
+    },
+    {
+      "id": 3,
+      "name": "downgrade-overpowered",
+      "prompt": "I'm currently running Claude Code on Opus 4.7 max and I just need help writing a one-line Python list comprehension to flatten a list of lists. Am I using the right model?",
+      "expected_output": "Recommend a downgrade — Haiku or Sonnet low is appropriate. Opus max is wildly overkill for syntax help (downgrade-signal case from the skill).",
+      "files": []
+    }
+  ]
+}

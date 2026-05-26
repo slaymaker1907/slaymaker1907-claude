@@ -28,6 +28,25 @@ The burn multipliers are mental models for claude.ai message-limit consumption, 
 
 ---
 
+## Switching costs
+
+**Model switch = cold cache = heavier message burn.** When you change the model mid-thread (e.g. switch from Sonnet to Opus in the dropdown), claude.ai has to re-read the entire conversation history from scratch on the first message to the new model. In a long, active thread this hidden re-read consumes significantly more message budget than simply continuing on the current model.
+
+**Thinking toggle = partial cache miss = lighter burn.** Flipping thinking on/off preserves the system-level infrastructure (Claude's base instructions) but invalidates the message history. Cheaper than a model switch, but not free in a very long thread.
+
+**Prefer toggling thinking before escalating model tier.** If Sonnet-off isn't cutting it, try Sonnet-on before jumping to Opus.
+
+**When switching model is fine:**
+- Thread is short (few messages) — switch freely, the overhead is trivial.
+- Current model is clearly failing the task (wrong outputs, stuck loops) — switch regardless of thread length; continued failed attempts cost more than the switch overhead.
+- Long thread + committing to the new model for many subsequent messages — the re-read cost amortizes.
+
+**Fresh tab pattern:** If you only need Opus for one bounded task (a single contract section, one planning pass), open a fresh tab and paste just the relevant excerpt. Tiny context = trivial cache overhead. Bring the result back to your main thread as plain text.
+
+**Running this skill itself has a cost.** In a very large, active thread, invoking the skill consumes message budget. Prefer running it at the start of a session or in a fresh tab when the thread is already long. **Do not re-invoke repeatedly** — one call per task segment is the norm. Only re-invoke if the task has significantly changed since the last recommendation.
+
+---
+
 ## Decision framework
 
 Two axes. Pick the row first, then the column.
@@ -61,11 +80,24 @@ When the skill fires, respond with this template:
 
 **Fallback: <Model> — <Thinking ON/OFF>**
 <1–2 sentences on the tradeoff — usually "cheaper if X" or "step up if you want Y".>
+
+**Switch:** In current thread | Fresh tab — <one-line rationale>   [only when Primary is a different model tier than current; omit for thinking-toggle-only changes]
+**If already on Primary:** <decision tree or low-context note>      [always include; see rules below]
 ```
 
-The fallback is typically *one step in either direction* on cost/power — a cheaper option if the user seems burn-conscious, or an upgrade if they hint at wanting peak quality. Choose whichever tradeoff is more likely to matter.
+**`Switch:` rules** (only when recommending a different model tier):
+- `In current thread` — thread is short, model is failing, or committing to many messages on the new model.
+- `Fresh tab` — long thread + only need the new model for one bounded task. Note what to paste in.
+- Omit entirely when Primary and Fallback are the same model (thinking toggle only).
 
-For workflows with clearly heterogeneous stages (e.g. raw cleanup → analysis), the **Primary** may be a two-stage recipe (e.g. "Haiku off for cleanup, then Sonnet on to analyze the cleaned-up text"). Only do this when the stages genuinely call for different configurations — don't over-engineer simple tasks.
+**`If already on Primary:` rules** (always include):
+- **Short thread:** "Thread is short — switching is cheap. Just apply the recommendation."
+- **Long thread, thinking-toggle change:** include a brief branch: "If thinking is already ON: no change needed. If OFF: flip it on."
+- **Long thread, cross-model move:** `Switch:` line covers it; add "If already on [Primary]: no change needed."
+
+The fallback is typically *one step in either direction* on cost/power — a cheaper option if the user seems burn-conscious, or an upgrade if they hint at wanting peak quality.
+
+For workflows with clearly heterogeneous stages (e.g. raw cleanup → analysis), the **Primary** may be a two-stage recipe. Only do this when the stages genuinely call for different configurations.
 
 If the recommendation rests on a non-obvious assumption, end with one short line: `Assumed: <the assumption>.`
 
@@ -133,6 +165,8 @@ Cross-clause interaction analysis on a dense legal document is what Opus thinkin
 
 **Fallback: Sonnet 4.6 — Adaptive Thinking ON.**
 For a first-pass scan before committing Opus burn, Sonnet thinking-on will catch the obvious traps. Use its output to identify focus sections, then send only those (not the whole lease) to Opus.
+
+**Switch:** Fresh tab — if you're already deep in a long thread, open a new tab and paste only the lease text (or the flagged sections). Tiny context = trivial Opus overhead. Bring the findings back to your main thread as plain text.
 
 Assumed: you want depth-over-breadth (loophole hunting), not a plain-English summary.
 
